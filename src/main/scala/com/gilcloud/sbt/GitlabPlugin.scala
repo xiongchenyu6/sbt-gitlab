@@ -22,6 +22,7 @@ object GitlabPlugin extends AutoPlugin {
       val creds = Credentials.allDirect(filteredCred)
       creds.find(_.realm == "gitlab") match {
         case Some(cred) =>
+          println(cred)
           val urlHandlerDispatcher = new URLHandlerDispatcher {
             super.setDownloader("https", new GitlabURLHandler(cred.userName,cred.passwd))
             super.setDownloader("http", new GitlabURLHandler(cred.userName,cred.passwd))

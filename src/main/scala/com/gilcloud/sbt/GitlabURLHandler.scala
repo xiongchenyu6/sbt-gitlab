@@ -51,7 +51,8 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
    */
   override def getURLInfo(url0: URL, timeout: Int): URLInfo = {
     // Install the ErrorMessageAuthenticator
-    if (!url0.getHost.contains("gitlab.com")) {
+    if (!url0.getHost.contains("bigo.sg")) {
+      println("getURLInfo" + url0.toString)
       super.getURLInfo(url0, timeout)
 
     }
@@ -108,6 +109,7 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
 
   override def openStream(url: URL): InputStream = {
     if (!url.getHost.contains("gitlab.com")) {
+      println("openStream" + url.toString)
       super.openStream(url)
 
     }
@@ -120,6 +122,7 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
 
   override def download(url: URL, dest: File, l: CopyProgressListener): Unit  = {
     if (!url.getHost.contains("gitlab.com")) {
+      println("download" + url.toString)
       super.download(url, dest, l)
     }
     else {
@@ -158,6 +161,8 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
     IvyAuthenticator.install()
     ErrorMessageAuthenticator.install()
 
+    println("upload")
+
     val dest = normalizeToURL(dest0)
 
     val body = RequestBody.create(MediaType.parse("application/octet-stream"), source)
@@ -169,6 +174,7 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
       .put(body)
       .build()
 
+    println(request.toString)
     if (l != null) l.start(new CopyProgressEvent())
     val response = GitlabURLHandlerHelper.http.newCall(request).execute()
     try {
