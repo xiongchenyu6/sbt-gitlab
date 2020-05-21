@@ -108,7 +108,7 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
   }
 
   override def openStream(url: URL): InputStream = {
-    if (!url.getHost.contains("gitlab.com")) {
+    if (!url.getHost.contains("bigo.sg")) {
       println("openStream" + url.toString)
       super.openStream(url)
 
@@ -121,7 +121,7 @@ class GitlabURLHandler(headerKey: String, headerValue: String) extends Gigahorse
   }
 
   override def download(url: URL, dest: File, l: CopyProgressListener): Unit  = {
-    if (!url.getHost.contains("gitlab.com")) {
+    if (!url.getHost.contains("bigo.sg")) {
       println("download" + url.toString)
       super.download(url, dest, l)
     }
