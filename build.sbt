@@ -1,5 +1,8 @@
-name := """sbt-gitlab"""
-organization := "com.gilandose"
+ThisBuild / name := """sbt-gitlab"""
+ThisBuild / organization := "com.gilandose"
+
+sbtPlugin := true
+
 
 // ScalaTest
 //libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1" % "test"
@@ -10,7 +13,6 @@ organization := "com.gilandose"
 
 initialCommands in console := """import com.gilcloud.sbt._"""
 
-enablePlugins(ScriptedPlugin, GitVersioning)
 
 ThisBuild / git.useGitDescribe := true
 ThisBuild / git.gitTagToVersionNumber := { tag: String =>
@@ -19,10 +21,14 @@ ThisBuild / git.gitTagToVersionNumber := { tag: String =>
   else Some(s"$tag")
 }
 
-// set up 'scripted; sbt plugin for testing sbt plugins
-scriptedLaunchOpts ++=
-  Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+enablePlugins(ScriptedPlugin, GitVersioning)
 
+// set up 'scripted; sbt plugin for testing sbt plugins
+// scriptedLaunchOpts ++=
+//  Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+
+
+credentials += Credentials("gitlab", "git.sysop.bigo.sg", "Private-Token", "Zs56zXYa6BHFpvUaru7D")
 
 publishMavenStyle := true
 publishTo := {
@@ -40,5 +46,5 @@ updateOptions := updateOptions.value.withGigahorse(false)
 
 resolvers ++= Seq(
   Resolver.mavenLocal, // Search local maven first for dev
-  "gitlab" at "https://gitlab.com/api/v4/packages/maven",
+  "gitlab-dowload" at "https://gitlab.com/api/v4/packages/maven",
 ).map(_.withAllowInsecureProtocol(true))
